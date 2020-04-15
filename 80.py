@@ -15,8 +15,6 @@ import sys
 from flask import Flask, g
 from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
-from aiohttp import web
-from aiohttp_limit import LimitMiddleware
 from ratelimit import limits, RateLimitException
 from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
@@ -282,6 +280,21 @@ for i in range(3):
     with rate_limiter:
         print('Iteration', i)
 
+
+from typing import Any, TYPE_CHECKING
+try:
+    from typing import Coroutine
+except ImportError:
+    class _Coroutine:
+        # Fake, so you can do Coroutine[foo, bar, baz]
+        # You could assert the proper number of items are in the slice,
+        # but that seems like overkill, given that mypy will check this
+        # and at runtime you probably no longer care
+        def __getitem__(self, index: Any) -> None:
+            pass
+
+    if not TYPE_CHECKING:
+        Coroutine = _Coroutine()
                                                                                                                                                                                          
 global data                          
 headers = open("headers.txt", "r")
@@ -413,6 +426,9 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
                         "Mozilla/5.0 (Linux; Android 4.2.2; Philips S388 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Mobile Safari/537.36 OPR/34.0.2044.98679"
                         "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
                        "Googlebot/2.1 ( http://www.googlebot.com/bot.html)"
+                       "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
+                       "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36",
+                       "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36",
                        "APIs-Google (+https://developers.google.com/webmasters/APIs-Google.html)"
                        "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36"
                        "Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16"
