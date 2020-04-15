@@ -22,7 +22,6 @@ from fake_useragent import UserAgent
 import asyncio
 from requests_guard import guard
 from request_limiter import request_limiter, LimitedIntervalStrategy, LimitException
-from aiocfscrape import CloudflareScraper
 from proxy_requests import ProxyRequests
 from ratelimiter import RateLimiter
 from toripchanger import TorIpChanger
